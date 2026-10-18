@@ -2,6 +2,8 @@
 
 **A stereo dual-filter effect plugin for macOS, Windows and Linux (VST3 · AU · CLAP · VST2).**
 
+Part of **[Epsilon Audio](https://github.com/natehouk/epsilon-plugins)**, a family of free, open-source plugins: Monolith, Caldera, Obsidian, Strata and Basalt.
+
 ![Caldera](screenshot.png)
 
 Caldera is a clean-room design with the feature set of FabFilter Volcano, FabFilter's second plugin (May 2005). It was written from scratch, working only from FabFilter's public press release and the Volcano user manual. No FabFilter code, binaries, presets, artwork or trademarks were used.
