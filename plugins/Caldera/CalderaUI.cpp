@@ -761,7 +761,7 @@ protected:
         const float s = uiScale(), x = ev.pos.getX() / s, y = ev.pos.getY() / s;
         if (saving) { return true; }
         // right-click: unassign MIDI (learn mode) or arm delete of a user preset (menu)
-        if (ev.button == 3 && ev.press) {
+        if (ev.button == 2 && ev.press) {
             if (menuOpen) {
                 const int m = menuHit(x, y);
                 if (m >= 0 && menuItem(m).kind == 1) { pendingDelete = menuItem(m).idx; repaint(); }
