@@ -1,14 +1,14 @@
 # Caldera
 
-**A stereo dual-filter effect plugin for macOS, Windows and Linux (VST3 · AU · CLAP · VST2).**
+**A stereo filter effect plugin with up to four filters, for macOS, Windows and Linux (VST3 · AU · CLAP · VST2).**
 
 Part of **[Epsilon Audio](https://github.com/natehouk/epsilon-plugins)**, a family of free, open-source plugins: Monolith, Caldera, Obsidian, Strata, Basalt, Gneiss, Mica, Flint, Granite, Magma, Schist, Slate, Talc, Geode and Malachite.
 
 ![Caldera](screenshot.png)
 
-Caldera is a clean-room design with the feature set of FabFilter Volcano, FabFilter's second plugin (May 2005). It was written from scratch, working only from FabFilter's public press release and the Volcano user manual. No FabFilter code, binaries, presets, artwork or trademarks were used.
+Caldera is a clean-room design with the feature set of FabFilter Volcano 3 (2021). Version 1 followed the original Volcano (2005); version 3 follows Volcano 3. It was written from scratch, working only from FabFilter's public product pages, online help and release announcements. No FabFilter code, binaries, presets, artwork or trademarks were used.
 
-The filters are cascaded topology-preserving state-variable filters (Zavalishin) with Butterworth stage damping. Each style adds its own published-technique nonlinearity.
+The filters are cascaded topology-preserving state-variable filters (Zavalishin) with Butterworth stage damping; bell, shelf, notch and all-pass shapes are built from the same sections, so each style's published-technique nonlinearity colours them too.
 
 Caldera is the sibling of [Monolith](https://github.com/natehouk/monolith), and Monolith's filter is one of its seven styles.
 
@@ -36,13 +36,13 @@ Get the latest build from [**Releases**](../../releases):
 xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/*/Caldera*
 ```
 
-**Logic Pro:** to use MIDI features, insert Caldera as an **AU MIDI-controlled effect** on an instrument track. MIDI features are key tracking, MIDI-triggered envelope, LFO retrigger and MIDI Learn.
+**Logic Pro:** to use MIDI features, insert Caldera as an **AU MIDI-controlled effect** on an instrument track. MIDI features are key tracking, MIDI-triggered envelopes, the MIDI modulation sources, LFO retrigger and MIDI Learn.
 
 ## Features
 
-**Two filters**
-- Each filter can be switched on or off independently.
-- **Seven styles**, from transparent to self-oscillating:
+**Four filters**
+- Each filter can be switched on or off; double-click the display to add one.
+- **Eleven styles**, from transparent to self-oscillating:
 
   | Style | Character |
   |---|---|
@@ -53,96 +53,60 @@ xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/*/Caldera*
   | **Hot** | Saturating integrators, screaming peak |
   | **Acid** | Resonance thins the bass, squelchy |
   | **Raw** | Hard-clipped feedback, buzzy self-oscillation |
+  | **Tube** | Asymmetric valve-like drive, even harmonics, singing peak |
+  | **Gentle** | Clean and polite, never self-oscillates |
+  | **Metal** | Hard-clipped input and feedback: rough and sharp |
+  | **Hollow** | The cutoff band is carved out as the peak rises; deep low self-oscillation |
 
-- **Low pass / band pass / high pass** at **12, 24 or 48 dB/oct**.
-- **Freq** (20 Hz–20 kHz) and **Peak** (resonance) controls.
-- **Pan:** offsets the cutoff between the left and right channels (up to ±2 octaves) for phase-free stereo movement.
-- **KEY:** the cutoff follows the MIDI notes you play. The Freq knob sets the cutoff at middle C.
+- **Eight shapes:** low pass, band pass, high pass, bell, low shelf, high shelf, notch, all pass, at **6, 12, 24 or 48 dB/oct** (for bell and shelf, the slope sets the bandwidth). The shapes follow the style, so a Hot bell distorts.
+- Per filter: **Freq**, **Peak**, **Gain** (bell and shelf), **Drive** (0–24 dB, level-compensated), **Pan** (left/right cutoff spread), **Delay** (0–50 ms, for comb, chorus and Haas effects), **Level**, **Output Pan**, and **KEY** tracking.
 
-**Routing and output**
-- **Serial** (filter 1 → filter 2) or **parallel** (both filters read the input and their outputs are mixed).
-- **Input** gain (±24 dB) drives the saturating styles.
-- **Output** gain and dry/wet **Mix**.
-- **Auto Mute:** silences self-oscillation 50 ms after the input goes quiet.
+**Routing and channels**
+- **Serial** (1 → 2 → 3 → 4), **parallel**, **serial pairs** ((1 → 2) beside (3 → 4)) or **parallel pairs** ((1 + 2) into (3 + 4)), with a live diagram.
+- **Stereo**, **left/right** (filters 1–2 left, 3–4 right) or **mid/side** (1–2 mid, 3–4 side).
+- **HQ:** 4x oversampling (48 samples of latency, reported to the host).
+- Input gain and pan, output gain, dry/wet mix (time-aligned with HQ), auto-mute for self-oscillation.
 
-**Modulation**
-- **2 LFOs:**
-  - Triangle or square, with **Balance**. For triangle it skews from a falling ramp through symmetric to a rising ramp; for square it sets the duty cycle.
-  - **Free** (0.01–100 Hz) or synced to host tempo and song position: **straight**, **dotted** or **triplet**, from 16 bars to 1/64.
-  - **RETRIG** restarts the LFO on each MIDI note.
-- **Envelope (ADSR):**
-  - By default it triggers when the input level crosses **Thresh**, which makes it work as an envelope follower or gate.
-  - **MIDI TRIG** triggers it from notes instead.
-  - The light in the panel shows when the envelope is active.
-- **Modulation grid:**
-  - Each source (LFO 1, LFO 2, Env) has its own bipolar amount knob next to each filter's **Freq**, **Peak** and **Pan**.
-  - Turning an amount left applies the inverted signal.
-  - Freq modulation reaches ±4 octaves.
+**Modulation** (the shared Epsilon modulation system, as in Magma)
+- **50 slots, drag and drop:** drag a source's chip onto any knob. Modulated knobs show their range and a live position; click the ring (or right-click the knob) for a panel listing every slot on it.
+- **Sources:** 4 **XLFOs** (7 waves or a 16-step sequencer, free or synced), 2 **envelope generators** (MIDI or audio), 2 **envelope followers** (input or sidechain), 2 **XY pads**, **MIDI** (velocity, key, mod wheel, pitch bend, aftertouch), and per-source **presets** (23 factory, plus your own).
+- **Classic sources:** Caldera 2's two LFOs and envelope with their grid, unchanged, so older projects keep working. Their connections show in the slot list.
 
 **Interactive display**
-- Shows both filter curves, the combined response (serial product or parallel sum), and faint left/right curves when pan is used.
-- Live markers show where modulation is moving each cutoff.
-- Drag handle **1** or **2** to set freq (horizontal) and peak (vertical).
-- Drag the **center handle** to move both filters together.
-- **Cmd/Ctrl-drag** a filter handle to move the two filters in opposite directions.
+- Every filter's response, the combined response, live modulation markers and an optional **piano keyboard**.
+- Drag a numbered handle for frequency and peak (or gain); Alt-drag to move all filters together; right-click to switch a filter off.
 
-**MIDI Learn**
-1. Click **LEARN**.
-2. Click any control, then move a knob or fader on your controller.
-3. Right-click a control to unassign it. **Clear all assignments** is in the display.
-
-Assignments are saved with your project. The **MIDI** button turns all MIDI handling off, for hosts that send MIDI to every effect.
-
-**Presets**
-- 41 factory presets in six categories: Sweeps, Rhythmic, Resonant, Stereo, Character, Utility.
-- **Save current as…** stores your own presets as small text files, which load the same on every OS:
-  - macOS: `~/Library/Audio/Presets/Epsilon Audio/Caldera/`
-  - Windows: `%APPDATA%\Epsilon Audio\Caldera\Presets\`
-  - Linux: `~/.config/epsilon-audio/caldera/presets/`
-- To delete a user preset, right-click it, then click it again to confirm.
-- A `*` after the preset name means you've edited the sound since loading it.
+**Workflow**
+- **57 factory presets** in six categories, user presets as cross-platform text files.
+- **A/B** with copy, **undo/redo** for every edit, **MIDI Learn** with saved assignments and a MIDI on/off switch.
+- **Hover tips** everywhere, a **HELP window**, and a **[full manual](docs/MANUAL.md)** (also in every release zip as `Caldera-Manual.html`).
+- Resizable window; every parameter automatable and smoothed.
 
 ![Presets](screenshot-presets.png)
 
-**Interface and workflow**
-- **A/B** with copy, and **undo/redo** for every edit, including preset loads and A/B switches.
-- **Hover tips** everywhere, a **HELP window**, and a **[full manual](docs/MANUAL.md)** (also in every release zip as `Caldera-Manual.html`).
-
-| Action | Result |
-|---|---|
-| Drag up/down | Adjust a knob (hold **Shift** for fine) |
-| Grab the rim of FREQ, PEAK or PAN | Turn it in a circle |
-| **Alt**-drag a filter knob | Move the same knob on both filters |
-| Mouse wheel | Step the value |
-| **Double-click** | Type a value (`1.2k`, `L40`, `-6`, `250ms`, `1/8`), then **Enter** |
-| **Cmd/Ctrl-click** | Reset to default |
-| Hover | The parameter name and value appear in the display, then a tip |
-| **Cmd/Ctrl-Z**, **Cmd/Ctrl-Shift-Z** | Undo, redo |
-
 ![Help](screenshot-help.png)
 
-The window is resizable and keeps its aspect ratio. Every parameter is automatable, and parameter changes are smoothed, so there's no zipper noise.
+### Compared with FabFilter Volcano 3
 
-### Compared with FabFilter Volcano (2005)
-
-| Volcano | Caldera |
+| Volcano 3 | Caldera 3.0 |
 |---|---|
-| Two filters, serial or parallel | ✓ |
-| Multiple filter characteristics, incl. FabFilter One's | ✓ 7 styles, incl. Monolith's filter |
-| LP / HP / BP at 12 / 24 / 48 dB/oct | ✓ |
-| Per-filter stereo pan (cutoff offset L/R) | ✓ |
-| Per-filter MIDI key tracking, per-filter bypass | ✓ |
-| Interactive display: drag one or both, Cmd/Ctrl for opposite directions | ✓ |
-| Input gain, output gain, effect mix, auto-mute self-oscillation | ✓ |
-| 2 LFOs: triangle/square + balance, free or sync (straight/dotted/triplet, 16 bars–1/64), MIDI retrigger | ✓ |
-| ADSR envelope with audio threshold or MIDI trigger, activity light | ✓ |
-| Per source/destination modulation amounts for freq, peak and pan (bipolar) | ✓ |
-| MIDI Learn with saved assignments, MIDI on/off switch | ✓ |
-| Factory presets in categories, save/delete your own, cross-platform preset files | ✓ |
-| Knob rotate-mode | ✓ grab the rim of the large knobs |
-| Undo/redo, A/B (later FabFilter versions) | ✓ |
-| Help with interactive hints (later FabFilter versions) | ✓ hover tips, help pages and full manual |
-| Pro Tools (RTAS/AAX) | Not supported (needs Avid's SDK and signing) |
+| Up to four filters | ✓ |
+| Flexible serial and parallel routing | ✓ serial, parallel and two paired layouts |
+| Stereo, per-channel (L/R) and mid/side routing modes | ✓ |
+| Low/high/band pass, bell, low/high shelf, notch and all-pass shapes, non-linear | ✓ all shapes follow the style |
+| Slopes including 6 dB/oct | ✓ 6, 12, 24, 48 dB/oct |
+| Several vintage-style filter characters, self-oscillation and saturation | ✓ eleven original styles |
+| Per filter: drive, frequency with stereo pan ring, peak, delay up to 50 ms, output level and pan | ✓ plus key tracking |
+| High Quality oversampling | ✓ 4x |
+| XLFOs (16-step), envelope generators, envelope followers, MIDI sources, XY controllers | ✓ |
+| Drag-and-drop modulation with live visualisation and a floating slot panel | ✓ 50 slots |
+| Per-component presets for modulation sources | ✓ |
+| Interactive display with optional piano display | ✓ |
+| Input and output level/pan, mix, auto-mute self-oscillation | ✓ |
+| MIDI Learn, undo/redo, A/B, help with interactive hints | ✓ |
+| Loads earlier Volcano presets | Loads Caldera 1.x and 2.x projects and presets, sounding identical |
+| Resizable interface, full-screen mode | Freely resizable interface |
+| Mono version, AAX, AudioSuite, iPad | Not supported |
 
 ## Build from source
 
@@ -160,32 +124,62 @@ GitHub Actions builds all three platforms on every push. The macOS build is univ
 
 ```
 cd tests
-g++ -O2 -std=c++11 response.cpp -o response && ./response   # all 63 style × type × slope combinations: passband and slope
-g++ -O2 -std=c++11 features.cpp -o features && ./features   # self-oscillation per style, pan, routing, EG triggers, key tracking, LFO sync, auto-mute
-g++ -O2 -std=c++11 fuzz.cpp -o fuzz && ./fuzz               # random params/MIDI/transport, loud input, 44.1–192 kHz: finite, ≤ 0 dBFS
-g++ -O2 -std=c++11 presets.cpp -o presets && ./presets      # every factory preset on test material
+g++ -O2 -std=c++17 -I../plugins/Caldera response.cpp -o response && ./response      # every style x pass shape x slope: passband and slope
+g++ -O2 -std=c++17 -I../plugins/Caldera features.cpp -o features && ./features      # self-oscillation per style, pan, routing, EG triggers, key tracking, LFO sync, auto-mute
+g++ -O2 -std=c++17 -I../plugins/Caldera features2.cpp -o features2 && ./features2   # 3.0: four filters and routings, L/R and M/S, shapes, 6 dB/oct, drive, delay,
+                                                                                   # level/pan, HQ latency and aliasing, styles, XLFO/EF/sidechain/slot-on-slot
+g++ -O2 -std=c++17 -I../plugins/Caldera compat.cpp -o compat && ./compat            # random 2.x settings through the frozen 2.0 engine and 3.0: identical
+g++ -O2 -std=c++17 -I../plugins/Caldera fuzz.cpp -o fuzz && ./fuzz                  # random params/MIDI/transport, loud input, 44.1-192 kHz: finite, <= 0 dBFS
+g++ -O2 -std=c++17 -I../plugins/Caldera presets.cpp -o presets && ./presets         # every factory preset on test material
+g++ -O2 -std=c++17 -I../plugins/Caldera modpresets.cpp -o modpresets && ./modpresets  # source presets in range, user files round-trip
+g++ -O3 -std=c++17 -I../plugins/Caldera bench.cpp -o bench && ./bench               # CPU
 ```
+
+CI runs all of them except the benchmark on every push, and a release needs them to pass.
+
+CPU use (one core of a cloud build machine, 48 kHz; 48 dB/oct Hot filters with drive, two of them modulated, parallel):
+
+| Filters | Normal | HQ (4x) |
+|---|---|---|
+| 1 | 3.5% | 10% |
+| 2 | 5.8% | 16% |
+| 4 | 11% | 35% |
 
 Release checks:
 - Steinberg's VST3 validator passes 47/47.
-- The interface is exercised with scripted input: filter toggles, style stepper, segment switches, knob and mod-amount drags, display-handle drag, MIDI Learn mode, preset save and reload, A/B, undo, hover tips and help.
+- The interface is exercised with scripted input: filter selection and toggles, the style menu, shapes and slopes, routing and channels, handle drags, drag-and-drop modulation (v2 and classic), the slot panel, HQ, presets, tips and help.
 
 ## Source layout
 
 | File | Contents |
 |---|---|
-| `plugins/Caldera/CalderaEngine.hpp` | All DSP: filter styles, routing, LFOs, envelope, modulation. Header-only |
+| `plugins/Caldera/CalderaEngine.hpp` | All DSP: filter styles and shapes, routing, oversampling, classic LFOs and envelope, modulation. Header-only |
 | `plugins/Caldera/ParamDefs.hpp` | Parameter table, labels, value mapping |
 | `plugins/Caldera/Presets.hpp` | Factory presets |
 | `plugins/Caldera/UserPresets.hpp` | User preset files |
+| `plugins/Caldera/ComponentPresets.hpp` | Factory and user presets for single modulation sources |
+| `plugins/Caldera/common/` | Shared Epsilon Audio code (oversampling, modulation system v2), vendored from epsilon-common |
 | `plugins/Caldera/Help.hpp` | Hover tip text and in-plugin help pages |
-| `plugins/Caldera/CalderaPlugin.cpp` | Plugin wrapper: parameters, programs, MIDI, MIDI Learn, transport |
+| `plugins/Caldera/CalderaPlugin.hpp/.cpp` | Plugin wrapper: parameters, programs, MIDI, MIDI Learn, transport, latency, sidechain |
 | `plugins/Caldera/CalderaUI.cpp` | Custom vector interface (NanoVG) |
 | `docs/MANUAL.md` | User manual (`Caldera-Manual.html` is generated from it with pandoc) |
+| `tests/legacy/` | Frozen copy of the 2.0 engine, for the compatibility test |
 
 New parameters are only ever appended, so saved sessions and automation keep working across versions.
 
 ## Changelog
+
+- **3.0:** Brings Caldera up to Volcano 3. New in this version:
+  - Four filters, with serial, parallel and two paired routings, in stereo, left/right or mid/side.
+  - Bell, shelf, notch and all-pass shapes; a 6 dB/oct slope.
+  - Four new styles: Tube, Gentle, Metal and Hollow (eleven in all).
+  - Per-filter drive, gain, delay, level and output pan; input pan.
+  - 4x HQ mode.
+  - The shared modulation system (XLFOs, envelopes, followers with a sidechain input, XY pads, MIDI, 50 slots, per-source presets, a slot panel on every modulated knob). Caldera 2's LFOs and envelope stay, under CLASSIC.
+  - Piano display; sixteen new presets (57).
+  - A new 1200 x 800 interface. The display's centre link handle is replaced by Alt-drag (all filters together).
+
+  Sessions, automation, presets and MIDI Learn maps from 1.x and 2.x load and sound the same; a test checks this against the frozen 2.0 engine. The Style, Type, Slope and Routing parameters gained values at the end of their ranges: in hosts that store automation as a 0-1 position, check those lanes after upgrading.
 
 - **2.0:** A/B with copy, undo/redo, hover tips, a help window and a full manual (in every release zip), rim-grab turning on the large knobs. Sessions and automation from 1.x load unchanged.
 - **1.0:** First release.

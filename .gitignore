@@ -4,3 +4,12 @@ bin/
 build/
 dist/
 *.o
+tests/features
+tests/features2
+tests/compat
+tests/response
+tests/fuzz
+tests/presets
+tests/modpresets
+tests/bench
+tests/*.log
