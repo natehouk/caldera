@@ -76,6 +76,7 @@ jobs:
           mkdir -p dist/macos-universal
           cp -R bin/*.vst3 bin/*.component bin/*.clap dist/macos-universal/ 2>/dev/null || true
           [ -e bin/Caldera.vst ] && cp -R bin/Caldera.vst dist/macos-universal/
+          cp docs/Caldera-Manual.html dist/macos-universal/
           cd dist && ditto -c -k --keepParent macos-universal Caldera-macos-universal.zip
       - uses: actions/upload-artifact@v4
         with:
@@ -94,7 +95,7 @@ jobs:
       - run: git clone --depth 1 --recursive https://github.com/DISTRHO/DPF.git dpf
       - run: make -C plugins/Caldera -j3 WINDOWS=true CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++
       - run: |
-          mkdir -p dist/windows-x64 && cp -R bin/Caldera.vst3 bin/Caldera.clap bin/Caldera-vst.dll dist/windows-x64/
+          mkdir -p dist/windows-x64 && cp -R bin/Caldera.vst3 bin/Caldera.clap bin/Caldera-vst.dll docs/Caldera-Manual.html dist/windows-x64/
           cd dist && zip -r Caldera-windows-x64.zip windows-x64
       - uses: actions/upload-artifact@v4
         with:
@@ -113,7 +114,7 @@ jobs:
       - run: git clone --depth 1 --recursive https://github.com/DISTRHO/DPF.git dpf
       - run: make -C plugins/Caldera -j3
       - run: |
-          mkdir -p dist/linux-x64 && cp -R bin/Caldera.vst3 bin/Caldera.clap bin/Caldera-vst.so dist/linux-x64/
+          mkdir -p dist/linux-x64 && cp -R bin/Caldera.vst3 bin/Caldera.clap bin/Caldera-vst.so docs/Caldera-Manual.html dist/linux-x64/
           cd dist && zip -r Caldera-linux-x64.zip linux-x64
       - uses: actions/upload-artifact@v4
         with:

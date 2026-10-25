@@ -18,9 +18,9 @@ Get the latest build from [**Releases**](../../releases):
 
 | Platform | File | Contains |
 |---|---|---|
-| macOS 10.13+ (Apple Silicon + Intel) | `Caldera-macos-universal.zip` | VST3, AU (MIDI-controlled effect), CLAP |
-| Windows x64 | `Caldera-windows-x64.zip` | VST3, CLAP, VST2 |
-| Linux x64 | `Caldera-linux-x64.zip` | VST3, CLAP, VST2 |
+| macOS 10.13+ (Apple Silicon + Intel) | `Caldera-macos-universal.zip` | VST3, AU (MIDI-controlled effect), CLAP, manual |
+| Windows x64 | `Caldera-windows-x64.zip` | VST3, CLAP, VST2, manual |
+| Linux x64 | `Caldera-linux-x64.zip` | VST3, CLAP, VST2, manual |
 
 ### Install
 
@@ -30,7 +30,7 @@ Get the latest build from [**Releases**](../../releases):
 | Windows | `Caldera.vst3` (folder) / `Caldera.clap` | `C:\Program Files\Common Files\VST3\` / `CLAP\` |
 | Linux | `Caldera.vst3` / `Caldera.clap` | `~/.vst3/` / `~/.clap/` |
 
-**macOS:** the plugins are ad-hoc signed, not notarized. After copying, run:
+**macOS:** builds are notarized once the project's Apple signing credentials are set up. Until then they are ad-hoc signed; after copying, run:
 
 ```
 xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/*/Caldera*
@@ -104,16 +104,22 @@ Assignments are saved with your project. The **MIDI** button turns all MIDI hand
 
 ![Presets](screenshot-presets.png)
 
-**Interface**
+**Interface and workflow**
+- **A/B** with copy, and **undo/redo** for every edit, including preset loads and A/B switches.
+- **Hover tips** everywhere, a **HELP window**, and a **[full manual](docs/MANUAL.md)** (also in every release zip as `Caldera-Manual.html`).
 
 | Action | Result |
 |---|---|
 | Drag up/down | Adjust a knob (hold **Shift** for fine) |
+| Grab the rim of FREQ, PEAK or PAN | Turn it in a circle |
 | **Alt**-drag a filter knob | Move the same knob on both filters |
 | Mouse wheel | Step the value |
 | **Double-click** | Type a value (`1.2k`, `L40`, `-6`, `250ms`, `1/8`), then **Enter** |
 | **Cmd/Ctrl-click** | Reset to default |
-| Hover | The parameter name and value appear in the display |
+| Hover | The parameter name and value appear in the display, then a tip |
+| **Cmd/Ctrl-Z**, **Cmd/Ctrl-Shift-Z** | Undo, redo |
+
+![Help](screenshot-help.png)
 
 The window is resizable and keeps its aspect ratio. Every parameter is automatable, and parameter changes are smoothed, so there's no zipper noise.
 
@@ -133,7 +139,9 @@ The window is resizable and keeps its aspect ratio. Every parameter is automatab
 | Per source/destination modulation amounts for freq, peak and pan (bipolar) | ✓ |
 | MIDI Learn with saved assignments, MIDI on/off switch | ✓ |
 | Factory presets in categories, save/delete your own, cross-platform preset files | ✓ |
-| Knob rotate-mode | Vertical drag only |
+| Knob rotate-mode | ✓ grab the rim of the large knobs |
+| Undo/redo, A/B (later FabFilter versions) | ✓ |
+| Help with interactive hints (later FabFilter versions) | ✓ hover tips, help pages and full manual |
 | Pro Tools (RTAS/AAX) | Not supported (needs Avid's SDK and signing) |
 
 ## Build from source
@@ -146,7 +154,7 @@ make -C plugins/Caldera                    # Linux / macOS (macOS also builds th
 make -C plugins/Caldera WINDOWS=true CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++
 ```
 
-GitHub Actions builds all three platforms on every push. The macOS build is universal and ad-hoc signed. A `v*` tag, or a release published on GitHub, attaches the zips to that release.
+GitHub Actions builds all three platforms on every push. The macOS build is universal. It is signed and notarized when the Developer ID secrets are set (`MACOS_CERT_P12`, `MACOS_CERT_PASSWORD`, `NOTARY_KEY`, `NOTARY_KEY_ID`, `NOTARY_ISSUER`), and ad-hoc signed otherwise. A `v*` tag, or a release published on GitHub, attaches the zips to that release.
 
 ## Tests
 
@@ -160,7 +168,7 @@ g++ -O2 -std=c++11 presets.cpp -o presets && ./presets      # every factory pres
 
 Release checks:
 - Steinberg's VST3 validator passes 47/47.
-- The interface is exercised with scripted input: filter toggles, style stepper, segment switches, knob and mod-amount drags, display-handle drag, MIDI Learn mode, and preset save and reload.
+- The interface is exercised with scripted input: filter toggles, style stepper, segment switches, knob and mod-amount drags, display-handle drag, MIDI Learn mode, preset save and reload, A/B, undo, hover tips and help.
 
 ## Source layout
 
@@ -170,10 +178,17 @@ Release checks:
 | `plugins/Caldera/ParamDefs.hpp` | Parameter table, labels, value mapping |
 | `plugins/Caldera/Presets.hpp` | Factory presets |
 | `plugins/Caldera/UserPresets.hpp` | User preset files |
+| `plugins/Caldera/Help.hpp` | Hover tip text and in-plugin help pages |
 | `plugins/Caldera/CalderaPlugin.cpp` | Plugin wrapper: parameters, programs, MIDI, MIDI Learn, transport |
 | `plugins/Caldera/CalderaUI.cpp` | Custom vector interface (NanoVG) |
+| `docs/MANUAL.md` | User manual (`Caldera-Manual.html` is generated from it with pandoc) |
 
 New parameters are only ever appended, so saved sessions and automation keep working across versions.
+
+## Changelog
+
+- **2.0:** A/B with copy, undo/redo, hover tips, a help window and a full manual (in every release zip), rim-grab turning on the large knobs. Sessions and automation from 1.x load unchanged.
+- **1.0:** First release.
 
 ## License
 
