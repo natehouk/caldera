@@ -78,6 +78,7 @@ xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/*/Caldera*
 
 **Workflow**
 - **57 factory presets** in six categories, user presets as cross-platform text files.
+- The preset browser **searches** names and categories as you type, and a star keeps a preset in **Favourites**.
 - **A/B** with copy, **undo/redo** for every edit, **MIDI Learn** with saved assignments and a MIDI on/off switch.
 - **Hover tips** everywhere, a **HELP window**, and a **[full manual](docs/MANUAL.md)** (also in every release zip as `Caldera-Manual.html`).
 - Resizable window; every parameter automatable and smoothed.
@@ -169,6 +170,7 @@ New parameters are only ever appended, so saved sessions and automation keep wor
 
 ## Changelog
 
+- **Unreleased:** the preset browser searches names and categories as you type, and keeps Favourites.
 - **3.0:** Brings Caldera up to Volcano 3. New in this version:
   - Four filters, with serial, parallel and two paired routings, in stereo, left/right or mid/side.
   - Bell, shelf, notch and all-pass shapes; a 6 dB/oct slope.

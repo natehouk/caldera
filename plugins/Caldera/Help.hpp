@@ -141,7 +141,7 @@ inline const char* targetTip(int t) {
     case kTipA: case kTipB: return "Caldera keeps two complete settings, A and B. Click the other letter to switch and compare.";
     case kTipCopy: return "Copies the current setting to the other slot.";
     case kTipPrev: return "Load the previous preset. The mouse wheel over the preset name also steps through presets.";
-    case kTipPresets: return "Open the preset browser. A * after the name means you have changed it.";
+    case kTipPresets: return "Open the preset browser. A * after the name means you have changed it. In the browser, type to search names and categories, and click a star to keep a preset in Favourites.";
     case kTipNext: return "Load the next preset.";
     case kTipDisplay: return "The filters' responses and their combined curve. Double-click an empty spot to switch on the next free filter there (up to four). Drag a numbered handle: left/right is frequency, up/down is peak (or gain for bell and shelf). Right-click a handle to switch that filter off. Alt-drag a handle to move all filters together.";
     case kTipHandle: return "Drag left/right for frequency, up/down for peak (gain for bell and shelf shapes). Click to select the filter; right-click to switch it off. Shift-drag for fine adjustment.";
