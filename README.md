@@ -170,7 +170,7 @@ New parameters are only ever appended, so saved sessions and automation keep wor
 
 ## Changelog
 
-- **Unreleased:** the preset browser searches names and categories as you type, and keeps Favourites.
+- **3.1:** the preset browser searches names and categories as you type, and keeps Favourites.
 - **3.0:** Brings Caldera up to Volcano 3. New in this version:
   - Four filters, with serial, parallel and two paired routings, in stereo, left/right or mid/side.
   - Bell, shelf, notch and all-pass shapes; a 6 dB/oct slope.

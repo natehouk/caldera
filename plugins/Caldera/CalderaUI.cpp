@@ -424,7 +424,7 @@ protected:
         beginPath(); moveTo(20, 45); lineTo(30, 19); lineTo(40, 45); closePath(); fillColor(C_ACC); fill();
         fontSize(22); textLetterSpacing(9); fillColor(C_TEXT); textAlign(ALIGN_LEFT | ALIGN_MIDDLE); text(52, 33, "CALDERA", nullptr);
         fontSize(9); textLetterSpacing(2.2f); fillColor(C_DIM); text(232, 28, "STEREO FILTER", nullptr);
-        fontSize(7); textLetterSpacing(1.1f); fillColor(C_FAINT); text(232, 40, "EPSILON AUDIO 3.0", nullptr);
+        fontSize(7); textLetterSpacing(1.1f); fillColor(C_FAINT); text(232, 40, "EPSILON AUDIO 3.1", nullptr);
         drawPresetBar();
         for (int k = 0; k < 2; ++k) {
             const float x = A_X + k * AB_W; const bool on = abSlot == k, hot = hoverHeader == 6 + k;

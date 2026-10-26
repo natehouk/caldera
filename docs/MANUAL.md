@@ -1,4 +1,4 @@
-# Caldera 3.0 — User Manual
+# Caldera 3.1 — User Manual
 
 Caldera is a stereo filter effect with up to four filters. Each filter has its own style (from clean to screaming), shape (low pass, band pass, high pass, bell, shelves, notch, all pass), slope, drive, delay, level and pan. The filters connect in series, in parallel or in pairs, and in stereo, left/right or mid/side. A drag-and-drop modulation system moves almost every control. Typical uses:
 
